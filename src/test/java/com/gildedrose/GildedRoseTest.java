@@ -1,5 +1,6 @@
 package com.gildedrose;
 
+import com.gildedrose.model.Item;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.gildedrose;
+package com.gildedrose.model;
 
 public abstract class BaseItem {
     private static final String AGED_BRIE = "Aged Brie";
@@ -10,6 +10,7 @@ public abstract class BaseItem {
     private static final int MAX_QUALITY_VALUE = 50;
 
     private final Item mItem;
+
 
     public BaseItem(Item item) {
         mItem = item;

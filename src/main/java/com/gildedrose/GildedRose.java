@@ -1,5 +1,10 @@
 package com.gildedrose;
 
+import com.gildedrose.model.BaseItem;
+import com.gildedrose.model.Item;
+
+import java.util.function.Predicate;
+
 class GildedRose {
     Item[] items;
 
@@ -8,17 +13,17 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (Item item : items) {
-            BaseItem baseItem = BaseItem.wrapItem(item);
-            /** "Sulfuras", being a legendary item, never has to be sold or decreases in Quality **/
-            if (baseItem.isSulfuras()) {
-                continue;
-            }
-
-            baseItem.performUpdateFlow();
-        }
+        updateItemsBaseOnCondition(item -> !item.isSulfuras());
     }
 
+    private void updateItemsBaseOnCondition(Predicate<BaseItem> requirementCondition) {
+        for (Item item : items) {
+            BaseItem baseItem = BaseItem.wrapItem(item);
+            if (requirementCondition.test(baseItem)) {
+                baseItem.performUpdateFlow();
+            }
+        }
+    }
 
     /**********  Analyzing and Refactoring Code Phase **********/
 //    private void increaseItemQuality(Item item) {

@@ -1,4 +1,4 @@
-package com.gildedrose;
+package com.gildedrose.model;
 
 public class ConjuredItem extends BaseItem {
     private ConjuredItem(Item item) {

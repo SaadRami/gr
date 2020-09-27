@@ -1,4 +1,4 @@
-package com.gildedrose;
+package com.gildedrose.model;
 
 public class BackStageItem extends BaseItem {
     private static final int TEN_DAYS = 10;
