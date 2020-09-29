@@ -2,22 +2,16 @@ package com.gildedrose.model;
 
 public class RegularItem extends BaseItem {
 
-    private RegularItem(Item item) {
+    public RegularItem(Item item) {
         super(item);
     }
 
     @Override
-    public void updateQuality() {
+    public void update() {
+        if (hasExpired()) {
+            decreaseItemQuality();
+        }
         decreaseItemQuality();
-    }
-
-    @Override
-    protected void updateQualitySellByDate() {
-        decreaseItemQuality();
-    }
-
-    public static BaseItem createRegularItem(Item item) {
-        return new RegularItem(item);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.gildedrose.model;
 
+import java.util.function.Supplier;
+
 public abstract class BaseItem {
     private static final String AGED_BRIE = "Aged Brie";
     private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
@@ -11,55 +13,42 @@ public abstract class BaseItem {
 
     private final Item mItem;
 
-
     public BaseItem(Item item) {
         mItem = item;
     }
 
     public static BaseItem wrapItem(Item item) {
-        if (containsConjuredWord(item.name)) {
-            return ConjuredItem.createConjuredItem(item);
-        }
-
-        switch (item.name) {
-            case AGED_BRIE:
-                return AgedBrieItem.createAgedBrieItem(item);
-            case BACKSTAGE_PASS:
-                return BackStageItem.createBackStageItem(item);
-            case SULFURAS:
-                return SulfurasItem.createSulfurasItem(item);
-            default:
-                return RegularItem.createRegularItem(item);
-        }
+        return supplyItem(item);
     }
 
-    public void performUpdateFlow() {
-        updateQuality();
-        updateSellIn();
-        if (hasExpired()) {
-            updateQualitySellByDate();
-        }
+    private static BaseItem supplyItem(Item item) {
+        Supplier<BaseItem> baseItemSupplier = () -> {
+            if (containsConjuredWord(item.name)) {
+                return new ConjuredItem(item);
+            }
+
+            switch (item.name) {
+                case AGED_BRIE:
+                    return new AgedBrieItem(item);
+                case BACKSTAGE_PASS:
+                    return new BackStageItem(item);
+                case SULFURAS:
+                    return new SulfurasItem(item);
+                default:
+                    return new RegularItem(item);
+            }
+        };
+
+        return baseItemSupplier.get();
     }
 
-    protected abstract void updateQuality();
 
-    protected abstract void updateQualitySellByDate();
+    public abstract void update();
 
     private static boolean containsConjuredWord(String name) {
         return name.toLowerCase().contains(CONJURED);
     }
 
-    public final boolean isConjured() {
-        return containsConjuredWord(mItem.name);
-    }
-
-    public final boolean isAgedBrie() {
-        return AGED_BRIE.equals(mItem.name);
-    }
-
-    public final boolean isBackStage() {
-        return BACKSTAGE_PASS.equals(mItem.name);
-    }
 
     public final boolean isSulfuras() {
         return SULFURAS.equals(mItem.name);
@@ -82,7 +71,7 @@ public abstract class BaseItem {
         return mItem.sellIn < MIN_QUALITY_VALUE;
     }
 
-    protected void updateSellIn() {
+    public void updateSellIn() {
         mItem.sellIn--;
     }
 

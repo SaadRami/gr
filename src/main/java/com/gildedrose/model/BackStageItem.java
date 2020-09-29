@@ -1,33 +1,27 @@
 package com.gildedrose.model;
 
 public class BackStageItem extends BaseItem {
-    private static final int TEN_DAYS = 10;
-    private static final int FIVE_DAYS = 5;
 
-    private BackStageItem(Item item) {
+    public BackStageItem(Item item) {
         super(item);
     }
 
     @Override
-    protected void updateQuality() {
+    public void update() {
         increaseItemQuality();
 
-        if (getSellIn() <= TEN_DAYS) {
+        if (getSellIn() <= 10) {
             increaseItemQuality();
         }
 
-        if (getSellIn() <= FIVE_DAYS) {
+        if (getSellIn() <= 5) {
             increaseItemQuality();
+        }
+
+        if (hasExpired()) {
+            dropQualityToZero();
         }
     }
 
 
-    @Override
-    protected void updateQualitySellByDate() {
-        dropQualityToZero();
-    }
-
-    public static BaseItem createBackStageItem(Item item) {
-        return new BackStageItem(item);
-    }
 }

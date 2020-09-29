@@ -55,7 +55,7 @@ public class GildedRoseTest {
     }
 
 
-    /************* Speicif Test units (Best practice ?) **********/
+    /************* Speicifc Test units (Best practice ?) **********/
 
     private void updateItemQuality(Item item) {
         GildedRose gildedRose = new GildedRose(new Item[]{item});

@@ -1,25 +1,19 @@
 package com.gildedrose.model;
 
 public class ConjuredItem extends BaseItem {
-    private ConjuredItem(Item item) {
+    public ConjuredItem(Item item) {
         super(item);
     }
 
     @Override
-    public void updateQuality() {
-        // twice regular item behavior
+    public void update() {
+        if (hasExpired()) {
+            decreaseItemQuality();
+            decreaseItemQuality();
+        }
+
         decreaseItemQuality();
         decreaseItemQuality();
     }
 
-    @Override
-    protected void updateQualitySellByDate() {
-        // twice regular item behavior
-        decreaseItemQuality();
-        decreaseItemQuality();
-    }
-
-    public static ConjuredItem createConjuredItem(Item item) {
-        return new ConjuredItem(item);
-    }
 }
